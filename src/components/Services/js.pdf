@@ -1,0 +1,1231 @@
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
+<link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"
+    rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    $(function () {
+        $("#dialog").dialog({
+            modal: true,
+            autoOpen: false,
+            title: "jQuery Dialog",
+            width: 300,
+            height: 150
+        });
+        $("#btnShow").click(function () {
+            $('#dialog').dialog('open');
+        });
+    });
+</script>
+<input type="button" id="btnShow" value="Show Popup" />
+<div id="dialog" style="display: none" align = "center">
+    This is a jQuery Dialog.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+  <body>
+    <input type="checkbox">
+  </body>
+</html>
+<script>
+    document.write("hello world");
+    var satya ="satyajeet wale";
+  
+    document.write("satya");
+
+    for(let i=1; i<=100; i++){
+      if(i===52)
+      {
+      continue;
+      }
+    
+        console.log(i);
+    }
+
+
+
+
+
+  </script>
+
+
+
+    <html>
+      <body>
+
+      <script>  
+      function validateform(){  
+      var name=document.myform.name.value;  
+      var password=document.myform.password.value;  
+        
+      if (name==null || name==""){  
+        document.write("Name can't be blank");  
+        return false;  
+      }else if(password.length<6){  
+        alert("Password must be at least 6 characters long.");  
+        return false;  
+        }  
+      } 
+
+
+
+
+
+      </script>  
+      <body>  
+      <form name="myform" method="post" action="http://www.javatpoint.com/javascriptpages/valid.jsp" onsubmit="return validateform()" >  
+      Name: <input type="text" name="name"><br/>  
+      Password: <input type="password" name="password"><br/>  
+      <input type="submit" value="register">  
+      </form>  
+      </body>
+      </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php $single = new MEC_skin_single();
+ $single_event_main = $single->get_event_mec(get_the_ID());
+ $single_event_obj = $single_event_main[0];
+ get_header(); ?>
+<?php if( is_user_logged_in() ){
+  $user_id = get_current_user_id();
+  global $wpdb;
+
+  $sql = "SELECT *  FROM wp_postmeta
+  JOIN wp_posts ON wp_postmeta.post_id = wp_posts.ID
+  WHERE `meta_key` = 'mec_event_id'
+  AND wp_posts.post_author = $user_id " ;
+  $bookings = $wpdb->get_results($sql);
+  $meta=[];
+  $userEventIds = [];
+  foreach ($bookings as $event) {
+                //$meta[] = $event->meta_value;
+    $event_start_date = get_post_meta($event->meta_value,"mec_start_date",true);
+    $event_id = $event->meta_value;
+    $meta[] = ["date"=>date("Ymd",strtotime($event_start_date)),"eventid"=>$event_id];
+    $userEventIds[]=$event->meta_value;
+  }
+  ?>
+  <script>
+    localStorage.setItem("userEvents",JSON.stringify(<?php echo json_encode($meta);?>));
+  jQuery(document).on("click","button.my-calendars-link",function(){
+    console.log("here");
+      jQuery("dt.mec-has-event").removeClass("mec-has-event");
+      var events = JSON.parse(localStorage.getItem("userEvents"));
+      jQuery.each(events,function(index,value){
+        jQuery(".mec-calendar-day[data-mec-cell='"+value.date+"']").addClass("mec-has-event");
+      });
+    });
+  </script>
+<?php }?>
+  <div class="container">
+    <div class="container_inner clearfix">
+      <div class="sc-events-wrapper">
+        <div class="sc-events-details">
+          <div class="sc-event-local-time">
+                        <div class="event-local-time-inner">
+                <?php $single->display_local_time_widget($single_event_obj); ?>
+                        </div>
+                       <?php if( is_user_logged_in() ){?>
+                     
+                       <?php if(ICL_LANGUAGE_CODE=='en'){?>
+<button class="popmake-enroll-date-popup my-calendars-link">
+                          <span class="my-calendars-link-icon">
+                                <img src="<?php echo get_template_directory_uri();?>-child/images/calendar.svg">
+                            </span>
+                            <span class="my-calendars-link-text">
+<?php _e("My Calendar","bridge");?>
+                            </span>
+</button>
+<?php } ?>
+                     <?php if(ICL_LANGUAGE_CODE=='vi'){?>
+<button class="popmake-enroll-date-popup-vi my-calendars-link">
+                          <span class="my-calendars-link-icon">
+                                <img src="<?php echo get_template_directory_uri();?>-child/images/calendar.svg">
+                            </span>
+                            <span class="my-calendars-link-text">
+<?php _e("My Calendar","bridge");?>
+                            </span>
+</button>
+<?php } ?>
+                       <?php if(ICL_LANGUAGE_CODE=='zh-hans'){?>
+<button class="popmake-enroll-date-popup-chinese-simplified my-calendars-link">
+                          <span class="my-calendars-link-icon">
+                                <img src="<?php echo get_template_directory_uri();?>-child/images/calendar.svg">
+                            </span>
+                            <span class="my-calendars-link-text">
+<?php _e("My Calendar","bridge");?>
+                            </span>
+</button>
+<?php } ?>
+                       <?php if(ICL_LANGUAGE_CODE=='zh-hant'){?>
+<button class="popmake-enroll-date-popup-chinese-traditional my-calendars-link">
+                          <span class="my-calendars-link-icon">
+                                <img src="<?php echo get_template_directory_uri();?>-child/images/calendar.svg">
+                            </span>
+                            <span class="my-calendars-link-text">
+<?php _e("My Calendar","bridge");?>
+                            </span>
+</button>
+<?php } ?>
+                         <?php } ?>
+          </div>
+            <h1 class="sc-events-title"><?php echo get_the_title(); ?></h1>         <div class="sc-events-video-wrapper video-wrapper">
+            <video src="<?php the_field('event_video'); ?>" poster="<?php if(has_post_thumbnail()){ echo get_the_post_thumbnail_url();}else{echo '<?php echo site_url(); ?>/wp-content/uploads/2020/04/rectangle.jpg';} ?>" class="has-media-controls-hidden"></video>
+            <!--<div class="sc-events-share-wrapper">
+              <span class="share-event-title">Share Event:</span> 
+              <ul>
+                <li><a href="#"><i class="fa fa-whatsapp"></i></a></li>
+                <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+              </ul>
+            </div>--> 
+          </div>
+          <div class="sc-events-description">
+              <h4 class="sc-events-subtitle"><?php _e('About the event', 'bridge');?></h4>
+            <div class="sc-events-information">
+              <?php echo get_the_content(); ?>
+            </div>  
+            <?php $single->display_speakers_widget($single_event_obj); ?>
+          </div>
+        </div>
+        <div class="sc-booking-form-details">
+          <?php 
+            $event_completed_status = $single_event_obj->data->meta['event_past'];
+            if($event_completed_status==1) {
+          ?>    
+              <div class="sc-event-completed">
+              <img src="<?php echo site_url(); ?>/wp-content/uploads/2020/07/check.svg" class="sc-event-completed-check">
+                <h3><?php _e('Event Completed', 'bridge');?></h3>
+              <?php $eventId = get_the_ID();
+              $userId = get_current_user_id();
+              global $wpdb;
+
+              $result = $wpdb->get_results ( "
+                  SELECT * 
+                  FROM  wp_db7_forms WHERE form_value LIKE '%\"eventId\";s:5:\"$eventId\"%' AND form_value LIKE '%\"UserId\";s:1:\"$userId\"%'
+      " );
+              if ( is_user_logged_in() && count($result) == 0 ) { 
+                            $uri_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+                            $uri_segments = explode('/', $uri_path);
+                            if(ICL_LANGUAGE_CODE=='en'){
+                            ?>
+  <a id="feedbackLink" itemprop="url" href="<?php echo site_url();?>/feedback/?event=<?php echo get_the_ID();?>" target="_self" class="qbutton center default sc-event-feedback-btn">Share Feedback</a>
+                  <?php }?>
+        <?php 
+            if(ICL_LANGUAGE_CODE=='zh-hans'){
+                            ?>
+  <a id="feedbackLink" itemprop="url" href="<?php echo site_url();?>/feedback/?lang=zh-hans&event=<?php echo get_the_ID();?>" target="_self" class="qbutton center default sc-event-feedback-btn">分享意见
+</a>
+                  <?php }?> 
+         <?php   
+                 if(ICL_LANGUAGE_CODE=='zh-hant'){
+                            ?>
+  <a id="feedbackLink" itemprop="url" href="<?php echo site_url();?>/feedback/?lang=zh-hant&event=<?php echo get_the_ID();?>" target="_self" class="qbutton center default sc-event-feedback-btn">分享意見
+</a>
+                  <?php }?>
+<?php if(ICL_LANGUAGE_CODE=='vi'){
+                            ?>
+  <a id="feedbackLink" itemprop="url" href="<?php echo site_url();?>/feedback/?lang=vi&event=<?php echo get_the_ID();?>" target="_self" class="qbutton center default sc-event-feedback-btn">Chia sẻ phản hồi</a>
+                  <?php }?>           
+  <?php } ?>
+              </div>  
+          <?php
+            } else if(in_array(get_the_ID(), $userEventIds) && is_user_logged_in()){ ?>
+            <div class="sc-event-completed">
+              <img src="<?php echo site_url(); ?>/wp-content/uploads/2020/07/check.svg" class="sc-event-completed-check">
+              <h3>Already Enrolled</h3>
+            </div>  
+          <?php }
+            else {
+                                                         $single->display_booking_widget($single_event_obj,$single_event_main);
+                                               } 
+          ?> 
+        </div>
+      </div>
+          
+            <?php $single->display_related_posts_widget(get_the_ID()); ?>
+            <!-- Added by Namrata for Help Topics Section -->
+           </div>
+           </div>
+            <div>
+
+        <?php 
+       // $page_for_posts_obj = get_post( '3009' );
+              //echo apply_filters( 'the_content', $page_for_posts_obj->post_content );
+
+if(ICL_LANGUAGE_CODE=='en'){
+$page_for_posts_obj = get_post( '3009' );
+echo apply_filters( 'the_content', $page_for_posts_obj->post_content );
+}
+if(ICL_LANGUAGE_CODE=='vi'){
+$page_for_posts_obj = get_post( '19532' );
+echo apply_filters( 'the_content', $page_for_posts_obj->post_content );
+}
+if(ICL_LANGUAGE_CODE=='zh-hans'){
+$page_for_posts_obj = get_post( '15136' );
+echo apply_filters( 'the_content', $page_for_posts_obj->post_content );
+}
+if(ICL_LANGUAGE_CODE=='zh-hant'){
+$page_for_posts_obj = get_post( '15143' );
+echo apply_filters( 'the_content', $page_for_posts_obj->post_content );
+}
+      ?>
+      
+      </div>
+            <!-- Ends Here -->
+<!-- The Modal -->
+<div id="eventModal" class="event-modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="enroll-msessage">
+        <img src="<?php echo site_url(); ?>/wp-content/uploads/1970/01/tick-gif-mark-.gif">
+             <h1><?php _e('Enrolment Successful', 'bridge');?></h1>
+         <div class="enroll-button">
+              <?php $single->display_export_widget($single_event_obj); ?> 
+         <div class="home_help_support_col">
+                                       <?php if(ICL_LANGUAGE_CODE=='en'){?>
+           <a href="<?php echo site_url();?>/my-calenders/" class="view-events"><?php _e("View all my events", "bridge");?> <i class="fa fa-chevron-right hvr-icon"></i> </a>
+                                       <?php } ?>
+                                      <?php if(ICL_LANGUAGE_CODE=='zh-hans'){?>
+                                          <a href="<?php echo site_url();?>/my-calenders/?lang=zh-hans" class="view-events"><?php _e("View all my events", "bridge");?> <i class="fa fa-chevron-right hvr-icon"></i> </a>
+                                      <?php } ?>
+                                      <?php if(ICL_LANGUAGE_CODE=='zh-hant'){?>
+                                            <a href="<?php echo site_url();?>/my-calenders/?lang=zh-hant" class="view-events"><?php _e("View all my events", "bridge");?> <i class="fa fa-chevron-right hvr-icon"></i> </a>
+                                      <?php } ?>
+                                      <?php if(ICL_LANGUAGE_CODE=='vi'){?>
+                                             <a href="<?php echo site_url();?>/my-calenders/?lang=vi" class="view-events"><?php _e("View all my events", "bridge");?> <i class="fa fa-chevron-right hvr-icon"></i> </a>
+                                      <?php } ?>
+           </div>
+         </div>
+         <p id="quarantin-email-alert">
+        Please check if any training emails from s2bnextgentraining@s2bsupportcenter.com have been quarantined.
+        For more information on the spam manager portal, read the <a href="https://thebridge.zone1.scb.net/docs/DOC-251403" target="_blank">user guide</a> on the bridge.
+         </p> 
+    </div>
+
+  </div>
+ 
+</div>
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+     var modal = document.getElementById("eventModal");      
+        jQuery("#mec-book-form-btn-step-1").trigger("click");
+    /*setTimeout(function(){ 
+        jQuery('.mec-book-reg-field-name input').blur(function(){ 
+        if( jQuery(this).val() ){
+          jQuery("#mec-book-form-btn-step-2").click(function() {
+            jQuery("#eventModal").show();
+          });
+          }
+      });
+     }, 3500);*/
+     jQuery(".close").click(function() {
+        jQuery("#eventModal").hide();
+      });
+     jQuery("body").click(function() {
+        if (event.target == modal) {
+            jQuery("#eventModal").hide();
+        }
+     });
+         
+         jQuery(document).on("click","#feedbackLink",function(){
+    localStorage.setItem("eventname", "<?php echo get_the_title(); ?>");
+    localStorage.setItem("eventtime", '<?php $single->display_local_time_widget($single_event_obj); ?>');
+         });
+    
+     /*jQuery(".breadcrumbs_inner a:first-child").after(`<span class="delimiter">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span><span class=""><?php if(ICL_LANGUAGE_CODE=='en'){?><a href="<?php echo site_url();?>/events/"><?php }if(ICL_LANGUAGE_CODE=='vi'){?><a href="<?php echo site_url();?>/events/?lang=vi"><?php } _e("Events","bridge");?></a></span>`);
+      */
+jQuery(".breadcrumbs_inner a:first-child").after("<span class='delimiter'>&nbsp;<i class='fa fa-angle-right'></i>&nbsp;</span><span class=''><?php if(ICL_LANGUAGE_CODE=='en'){?><a href='<?php echo site_url();?>/events/'><?php } if(ICL_LANGUAGE_CODE=='vi'){?> <a href='<?php echo site_url();?>/events/?lang=vi'> <?php } if(ICL_LANGUAGE_CODE=='zh-hans'){?> <a href='<?php echo site_url();?>/events/?lang=zh-hans'> <?php } if(ICL_LANGUAGE_CODE=='zh-hant'){?> <a href='<?php echo site_url();?>/events/?lang=zh-hant'> <?php } _e("Training","bridge");?> </a></span>");
+
+  var data = {
+      action: 'ajax_check_is_external'
+    };
+
+    jQuery.post(ajaxurl, data, function(response) {
+        setTimeout(function(){  
+                        if(response.trim() == 'yes') {
+             //alert("user is logged in");
+                               jQuery(".sc-events-details").find("popmake-enroll-date-popup").removeClass("hide");
+//             jQuery(".mec-book-tickets-container").find(".mec-book-reg-field-text").removeClass('hide');
+             jQuery("#quarantin-email-alert").addClass("hide");
+                               var username = jQuery(".custom_ellipsis").first().text();
+                                var group_id = username.split("@");
+                                if (typeof group_id[0] !== 'undefined' && group_id[0] !== null) {
+                                  group_id = group_id[0].substr(group_id[0].length - 8);
+                                  jQuery("#mec_book_reg_field_reg1_4").val(group_id);  
+                                }
+      } else {
+                                //jQuery(".sc-events-details").find(".popmake-enroll-date-popup").addClass("hide");
+        //alert("user is not logged in");
+        jQuery("label[for='mec_book_reg_field_reg1_5']").text("Are you from the Business Banking segment?");
+                    //jQuery(".mec-book-tickets-container").find(".mec-book-reg-field-radio").addClass('hide');   
+        jQuery(".mec-book-tickets-container").find(".mec-book-reg-field-text").addClass('hide');
+                                //jQuery(".enroll-msessage").find(".home_help_support_col").addClass("hide");     
+                              }
+                     }, 3000);
+    });
+   
+               var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+               jQuery(".mec-event-content .timeZone-val").text("("+timeZone+")"); 
+
+setTimeout(function(){
+/*       jQuery(".mec-ticket-available-spots p").addClass("hide"); 
+         jQuery("#mec-book-form-btn-step-1").addClass("hide");
+         jQuery(".sc-booking-form-details").find(".mec-error").empty();
+         jQuery(".sc-booking-form-details").find(".mec-error").html(`<div class='sc-event-completed'>
+              <img src='<?php echo site_url(); ?>/wp-content/uploads/2020/07/check.svg' class='sc-event-completed-check'>
+                <h3>Already Enrolled</h3>
+              <!--<a id='feedbackLink' itemprop="url" href='#' target='_self' class='qbutton center default sc-event-feedback-btn'>Add to my calendar</a><a href="#" class="Frequently-Asked-Que">Cancel my enrolment ></a>-->
+ <?php $single->display_export_widget($single_event_obj); ?>
+   </div>`);*/
+}, 4000);
+
+});
+function submitQuery(){
+  localStorage.setItem("supportCenter", "Support-center");
+   window.location = "<?php echo get_permalink(3300); ?>";
+}
+</script>
+
+
+<script>
+jQuery("document").ready(function(){
+
+  jQuery('#calendar').datepicker({
+    inline: true,
+    firstDay: 1,
+    showOtherMonths: true,
+    dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  });
+
+  jQuery(".popmake-enroll-date-popup").click(function(){
+    jQuery.ajax({
+                  type : "POST",
+                  url: 'https://s2b.sc.com/s2b/support/wp-admin/admin-ajax.php',
+                  data: {
+                          action:"getUserBookingDates",
+                          //json: JSON.stringify(["02/01/2021","02/30/2021"]),
+                          //delay: 1
+                  },
+                  success : function(data) {
+                        //data = JSON.stringify(data);
+        var dateStr = JSON.parse(data);
+        console.log(data);
+        console.log(dateStr);
+                        var dates={};
+                        for (var i = 0 ; i < dateStr.length; i++) {
+                            date= new Date(dateStr[i]).toString();
+                            dates[date] = date;
+                        }
+                        fillDates(dates);
+                  },
+                  error : function(data) {
+                        alert("Problem!" );
+                  }
+             });  
+  })
+  
+    function fillDates(dates) {
+            jQuery('#calendar').datepicker('destroy').datepicker({
+                beforeShowDay: function( date ) {
+      var highlight = dates[date];
+                    if( highlight ) {
+                        return [true, 'highlight', highlight];
+                    } else {
+                        return [true, '', ''];
+                    }
+                }
+            });
+  }
+
+
+
+}); 
+</script>
+
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
+<link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    $(function () {
+        var fileName = "Mudassar_Khan.pdf";
+        $("#btnShow").click(function () {
+            $("#dialog").dialog({
+                modal: true,
+                title: fileName,
+                width: 540,
+                height: 450,
+                buttons: {
+                    Close: function () {
+                        $(this).dialog('close');
+                    }
+                },
+                open: function () {
+                    var object = "<object data=\"{FileName}\" type=\"application/pdf\" width=\"500px\" height=\"300px\">";
+                    object += "If you are unable to view file, you can download from <a href = \"{FileName}\">here</a>";
+                    object += " or download <a target = \"_blank\" href = \"http://get.adobe.com/reader/\">Adobe PDF Reader</a> to view the file.";
+                    object += "</object>";
+                    object = object.replace(/{FileName}/g, "Files/" + fileName);
+                    $("#dialog").html(object);
+                }
+            });
+        });
+    });
+</script>
+<input id="btnShow" type="button" value="Show PDF" />
+<div id="dialog" style="display: none">
+</div>
+
+
+<style>
+.mec-error{
+    background-color: unset !important;
+    padding:0 !important;
+}
+.Frequently-Asked-Que{
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.69;
+    letter-spacing: normal;
+    color: #0075b0;
+    margin-top: 16px;
+}
+.sc-events-details .my-calendars-link-text{ color: #6d6e71;
+padding-left:0px !important; line-height:27px;  }
+/* The Modal (background) */
+.popmake-content .mec-event-footer{
+    margin: 0px 0 !important;
+    padding: 10px 0 !important;
+    position: relative !important;
+}
+#mec_search_form_2896{display:none !important;}
+.event-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 120; /* Sit on top */
+  padding-top: 150px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width:770px;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.enroll-button:after{
+    content: "\f105";
+    font-family: FontAwesome;
+    font-size: 16px;
+    padding-left: 10px;
+  color: #0075b0;
+}
+.qbutton:hover, .qbutton{
+    background-color: #3f9c35;
+  padding:0px 15px;
+  text-align:center;
+  color:#fff;
+  margin-top: 50px;
+}
+.enroll-button .view-events{ color: #0075b0;padding-left: 40px;}
+.enroll-msessage{text-align:center;}
+.enroll-msessage h1{padding-top: 31px;}
+.enroll-msessage img{padding-top:53px;}
+.enroll-button{padding-bottom: 53px;}
+.sc-event-local-time{
+  width:100%;
+  display:inline-block;
+}
+.event-local-time-inner{
+    float:left;
+    display: inline-block;
+   padding-top:10px;
+}
+.my-calendars-link{
+    float:right;
+    border-radius: 4px;
+    border: solid 1px #e6dcdc;
+    background-color: #ffffff;
+    padding:10px;
+    display:inline-block;
+    width:161px;
+    height:48px;
+    font-family: "SC Sans Web" !important;
+    font-weight: 500;
+}
+.my-calendars-link-icon{
+  border-right:1px solid #e6dcdc;
+        padding-top:3px;
+}
+.enroll-button{
+  display: flex;
+    align-items: baseline;
+    justify-content: center;
+  }
+.mec-export-details ul li {
+  list-style:none;
+}
+.mec-ticket-available-spots  .mec-event-ticket-name{
+  display:none;   
+} 
+.mec-ticket-available-spots .mec-event-ticket-available{
+  display:none;   
+}
+button#mec-book-form-btn-step-1{
+  color: #FFF;
+    background: transparent;
+    border: none;
+} 
+  .enroll-button:after{
+    display:none; }
+  .mec-book-reg-field-radio input:not([type=checkbox]){height: auto !important; width: auto !important;}
+  .booking_event_form label{margin:10px 0;line-height:27px;}
+.hide{
+display:none !important;
+}
+
+/*related event*/
+article.mec-event-article {
+
+    max-width: 269px;
+
+    max-height: 335px;
+
+    border-radius: 8px;
+
+    border: solid 1px #dcd9d9;
+
+    background-color: #ffffff;
+
+    width:100%;
+
+    padding-bottom: 50px;
+
+    height:100%;
+
+    margin-bottom: 0 !important;
+
+    padding-left:0 !important;
+
+    padding-right:0 !important;
+
+    position:relative !important;
+
+}
+
+.mec-event-article img{
+
+    width: 239px;
+
+    height: 164.8px;
+
+    border-radius: 5px;
+
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+
+}
+
+.mec-calendar .mec-event-article{
+
+    padding-bottom:50px !important;
+
+    padding-top: 0;
+
+}
+
+.mec-calendar .mec-event-article .mec-event-image{
+
+    float: unset;
+
+    margin:0;
+
+    width: auto;
+
+    height: auto; 
+
+    margin: 14px !important;
+
+}
+.nice-select .option.selected {
+    font-weight: 500;
+}
+.mec-month-container .mec-calendar-d-top,.mec-month-container .mec-calendar-d-table{display:none;}
+
+.d-none{
+
+    display:none;
+
+}
+
+
+
+.mec-no-event{display:block;}
+
+
+
+.row-container{
+
+    margin-left: -15px;
+
+    margin-right: -15px;
+
+}
+
+.mec-event-footer{
+
+    min-height: 0 !important;
+
+    margin: 10px 0;
+
+    padding: 20px 0;
+
+    border-top: unset;
+
+    border-radius: 8px;
+
+    bottom: 0;
+
+    width: 100% !important;
+
+    background: unset !important;
+
+    position: absolute !important;
+
+    bottom:0;
+
+}
+
+.mec-event-title .mec-color-hover{
+
+    font-size: 16px !important;
+
+    text-decoration: none !important;
+
+    color: #444c63 !important;
+
+    transition: color .3s ease !important;
+
+}
+
+
+
+.mec-event-date {
+
+    font-size: 14px;
+
+    text-align: left;
+
+    padding-top: 2px;
+
+  background-color: unset;
+
+    color: #6d6e71;
+
+    text-align: left !important;
+
+    color: #6d6e71 !important;
+
+    font-family: "SC Sans Web" !important;
+
+    text-transform: none;
+
+    font-weight: normal;
+
+    padding: 3px 20px;
+
+    margin: 0 -20px 20px -20px;
+
+    letter-spacing: normal;
+
+  margin-right:0 !important;
+
+    line-height: 1.4;
+
+}
+
+ .mec-event-grid-classic .mec-event-date{
+
+    font-size: 14px !important;
+
+} 
+
+
+
+.mec-calendar.mec-calendar-daily .mec-calendar-day-events .mec-event-article{
+
+    margin-left: 15px;
+
+    margin-right: 15px;
+
+} 
+
+
+
+.q_tabs.horizontal .tabs-container, .q_tabs.horizontal.left, .full_section_inner .vc_column_container, .full_section_inner, .full_width, .full_width .section{
+
+      position: unset;
+
+}
+
+.mec-totalcal-box .mec-dropdown-wrap{display: inline;}
+
+.mec-totalcal-box .mec-dropdown-search{display: inline;}
+
+
+
+.mec-event-date .mec-date-day{
+
+    text-transform: capitalize;
+
+}
+
+
+
+.mec-event-title{
+
+    font-family: "SC Sans Web" !important;
+
+    font-size: 16px !important;
+
+    font-weight: 500 !important;
+
+    font-stretch: normal;
+
+    font-style: normal;
+
+    line-height: 1.38;
+
+    letter-spacing: normal !important;
+
+    color: #444c63 !important;
+
+    margin: 10px 0 !important;
+
+}
+
+.webinar-tag {
+
+    color: #6d6e71;
+
+    font-size: 15px;
+
+    font-family: "SC Sans Web" !important;
+
+}
+
+.mec-wrap .mec-totalcal-box{
+
+    min-height: 80px;
+
+    height: 80px;
+
+}
+
+.mec-search-form .mec-dropdown-wrap .mec-dropdown-search{
+
+    display: inline;
+
+    float: right;
+
+    width: 70%
+
+}
+
+.mec-calendar .mec-event-article .mec-event-image{padding-bottom: 0px;}
+
+.mec-search-form .mec-date-search{display: inline !important;    width: 30%;}
+
+.mec-wrap .mec-totalcal-box input{width:100% !important;padding: 30px;border-radius: 10px;}
+
+.mec-wrap .mec-totalcal-box select{width:100% !important;height: 60px;}
+
+.mec-wrap .mec-search-form .mec-dropdown-wrap .mec-dropdown-search select{border-radius: 10px;    margin-bottom: 0px !important;}
+
+.mec-daily-view-date-events article{
+
+    margin: 0 10px;
+
+    float: left;
+
+}
+
+.mec-event-content:hover{    background-color: unset;}
+
+.event_right_caret_col:hover .fa {
+
+    transform: translateX(0px) !important;
+
+}
+
+.mec-event-content{
+
+    text-align: left;
+
+    min-height: auto;
+
+    padding: 0 14px;
+
+}
+
+.row-container .col-md-3{
+
+    margin-bottom: 30px;
+
+}
+
+.sc-events-description p{
+    font-size: 14px;
+    font-weight: normal !important;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.93;
+    letter-spacing: normal;
+    color: #6d6e71 !important;
+  }
+
+.sc-events-details{
+margin: 54px 20px;
+}
+.mec-calendar-topsec{
+margin:0 auto;
+}
+.single-mec-events .watch-action{
+  display: none;
+}
+.booking_event_form input:not([type=checkbox]){
+font-family: "SC Sans Web" !important;
+}
+.sc-event-completed .qbutton{padding:0 37px;}
+.termCondition{
+font-size: 12px;color: #6d6e71;}
+.legal_notice{color: #0B9EDA;}
+.sc-events-information table{margin-bottom: 20px;}
+div#popmake-3871,#popmake-20042{top:45% !important;}
+#mec-book-form-btn-step-1{display:none;}
+.sc-events-information a.popmake-eventcontact{color: #0B9EDA;}
+.mec-ticket-available-spots p{display:none;}
+.mec-booking h3.mecHeading{
+  font-size: 23px !important;
+  font-weight: bold;
+  line-height: 28px !important;
+  color: #171c24;
+}
+
+.mec-event-book-message p{
+  margin-top: 20px;
+}
+
+button.pum-close.popmake-close {
+    display: none;
+}
+div#popmake-20042, div#popmake-20038, div#popmake-20040{
+    border: solid 1px #afb0b2;
+    box-shadow: none;
+}
+@media only screen and (min-width: 1030px)
+{
+div#popmake-20042, div#popmake-20038, div#popmake-20040 {
+    top: 45% !important;
+    left: 40% !important;
+}
+}
+
+/************** Custom calendar css ********************/
+    /* Reset */
+#calendar .ui-datepicker,
+#calendar .ui-datepicker table,
+#calendar .ui-datepicker tr,
+#calendar .ui-datepicker td,
+#calendar .ui-datepicker th {
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-spacing: 0;
+}
+
+/* Calendar Wrapper */
+#calendar .ui-datepicker {
+    display: none;
+    width: 574px;
+    padding: 35px;
+    cursor: default;
+    text-transform: uppercase;
+    font-family: HelveticaNeue;
+    font-size: 16px;
+    background: #FFF;
+}
+
+/* Calendar Header */
+#calendar .ui-datepicker-header {
+  position: relative;
+  padding-bottom: 10px;
+}
+
+#calendar .ui-datepicker-title {
+  text-align: left;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #002244;
+}
+
+/* Month */
+#calendar .ui-datepicker-month {
+  position: relative;
+  padding-right: 15px;
+  color: #000;
+}
+/* Year */
+#calendar .ui-datepicker-year {
+  padding-left: 8px;
+  color: #000;;
+}
+
+/* Prev Next Month */
+#calendar .ui-datepicker-prev,
+#calendar .ui-datepicker-next {
+  position: absolute;
+  top: -2px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+#calendar .ui-datepicker-prev {
+  left: 0;
+  padding-left: 0;
+}
+
+#calendar .ui-datepicker-next {
+  right: 0;
+  padding-right: 0;
+}
+
+#calendar .ui-datepicker-prev span,
+#calendar .ui-datepicker-next span{
+  display: block;
+  width: 5px;
+  height: 10px;
+  text-indent: -9999px;
+
+  background-image: url(../img/arrows.png);
+}
+
+#calendar .ui-datepicker-prev span { background-position: 0px 0px; }
+
+#calendar .ui-datepicker-next span { background-position: -5px 0px; }
+
+#calendar .ui-datepicker-prev-hover span { background-position: 0px -10px; }
+
+#calendar .ui-datepicker-next-hover span { background-position: -5px -10px; }
+
+/* Calendar "Days" */
+#calendar .ui-datepicker-calendar{
+  width: 100%;
+}
+
+#calendar .ui-datepicker-calendar th {
+  padding-top: 25px;
+  padding-bottom: 30px;
+
+  text-align: center;
+  font-weight: normal;
+  color: #000;
+}
+
+#calendar .ui-datepicker-calendar td {
+  text-align: center;
+  line-height: 50px;
+  border-radius: 40px;
+}
+
+#calendar .ui-datepicker-calendar .ui-state-default {
+  display: block;
+  outline: none;
+
+  text-decoration: none;
+  color: #000;;
+
+  border: 1px solid transparent;
+  border-radius: 40px;
+    padding: 10px;
+}
+
+/* Day Active State*/
+#calendar .ui-datepicker-calendar .ui-state-active {
+  color: #FFF !important;
+  background-color: #6a9113;
+}
+
+/* Other Months Days*/
+#calendar .ui-datepicker-other-month .ui-state-default { color: #000; }
+
+#calendar table.ui-datepicker-calendar thead{
+  background: #f6f6f6;
+}
+
+#popmake-3871{
+  background: none;
+      padding: 0px;
+      width: auto;
+}
+
+#calendar .ui-datepicker-calendar .ui-state-default {
+    display: block;
+    outline: none;
+    text-decoration: none;
+    color: #000;
+    border: 1px solid transparent;
+    border-radius: 40px;
+    padding: 0;
+    margin: 5px auto !important;
+    font-size: 16px;
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+#calendar .ui-datepicker-header {
+    position: relative;
+    padding-bottom: 10px;
+    background: transparent;
+    border: 0;
+}
+
+#calendar .ui-datepicker-prev{
+  right: 32px;
+      left: auto;
+  background:transparent;
+  color:#000; 
+}
+
+#calendar .ui-datepicker-prev{
+  color:#000;
+}
+
+#calendar .ui-datepicker .ui-datepicker-title {
+    margin: 0 0.3em;
+}
+
+#calendar .highlight a{
+  border-radius:40px;
+  height:40px;
+  width:40px;
+  background:green;
+  color:white !important;
+}
+
+.ui-datepicker.ui-widget td a.ui-state-active{
+  background:#FFF;
+  color: #000 !important;
+}
+
+#calendar .ui-datepicker-calendar .ui-state-active{
+  background:#FFF;
+  color: #000 !important;
+}
+
+#calendar .ui-datepicker.ui-widget{
+  box-shadow: none;
+}
+
+#calendar .ui-datepicker-next{
+  background: #FFF;
+  color: #000;
+}
+
+#calendar .ui-datepicker.ui-widget td a:hover{
+  background:#469c35;
+  color: #FFF; 
+}
+
+#popmake-3871{
+  background: #FFF;
+  padding-bottom: 30px;
+}
+
+.enroll-msessage img {
+  padding-top:0 !important;
+  height:100px !important;
+}
+
+#quarantin-email-alert{
+  border: 1px solid green;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#quarantin-email-alert a{
+  color: #0075b0;
+}
+
+#quarantin-email-alert a:hover{
+  color: #3f9c35;
+}
+</style>
+<?php get_footer(); ?>
